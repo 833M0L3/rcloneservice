@@ -1,0 +1,27 @@
+[Unit]
+Description=Rclone SERVER
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=root
+Group=root
+Type=simple
+ExecStartPre=/bin/sleep 10
+ExecStart=/usr/bin/rclone serve http gdrive: \
+  --config=/root/.config/rclone/rclone.conf \
+  --addr :4869 \
+  --no-modtime \
+  --user uppi \
+  --pass nepal123 \
+  --vfs-read-chunk-size 10M \
+  --vfs-read-chunk-size-limit 0 \
+  --timeout=11m \
+  --contimeout 3m \
+  --log-level INFO \
+  --log-file /opt/rclone.log 
+RestartSec=5
+LimitNOFILE=infinity
+
+[Install]
+WantedBy=default.target
